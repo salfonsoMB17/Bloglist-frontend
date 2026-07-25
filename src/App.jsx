@@ -12,6 +12,7 @@ const App = () => {
   const [url, setUrl] = useState('') 
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -50,6 +51,10 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setSuccessMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('Error in create new blog')
       setTimeout(() => {
@@ -114,6 +119,7 @@ const App = () => {
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       <div>
         <h2>create new</h2>
+        {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
         {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
         <form onSubmit={handleCreate}>
           <div>
