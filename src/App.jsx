@@ -54,7 +54,6 @@ const App = () => {
 
   const updateBlog = async (id, blogObject) => {
     try {
-      console.log(blogObject)
       const updatedBlog = await blogService.update(id, blogObject)
       setBlogs(blogs.map(blog => blog.id !== id ? blog : { ...updatedBlog, user: blog.user }))
       setSuccessMessage(`blog ${updatedBlog.title} was updated`)
@@ -122,7 +121,7 @@ const App = () => {
       <Togglable ref={blogFormRef}>
         <BlogForm createBlog={createBlog} />    
       </Togglable>
-      {blogs.map(blog =>
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog updateBlog={updateBlog} key={blog.id} blog={blog} />
       )}
     </div>
