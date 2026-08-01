@@ -11,7 +11,7 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
   const [visible, setVisible] = useState(false)
 
   const showWhenVisible = { display: visible ? '' : 'none' }
-  
+
   const toggleVisibility = () => {
     setVisible(!visible)
   }
@@ -20,7 +20,7 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
     event.preventDefault()
     updateBlog(blog.id, { ...blog, likes: blog.likes + 1, user: blog.user.id })
   }
-  
+
   const handleRemove = (event) => {
     event.preventDefault()
     removeBlog(blog.id)
@@ -28,17 +28,17 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
 
   return (
     <div style={blogStyle}>
-    <div>
-      {blog.title} {blog.author}
-      <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
+      <div>
+        {blog.title} {blog.author}
+        <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
+      </div>
+      <div style={showWhenVisible}>
+        <p>{blog.url}</p>
+        <p>{blog.likes} likes <button onClick={handleLike}>like</button></p>
+        <p>added by {blog.user.name}</p>
+        {blog.user.name === user.name && <button onClick={handleRemove}>remove</button>}
+      </div>
     </div>
-    <div style={showWhenVisible}>
-      <p>{blog.url}</p>
-      <p>{blog.likes} likes <button onClick={handleLike}>like</button></p>
-      <p>added by {blog.user.name}</p>
-      {blog.user.name === user.name && <button onClick={handleRemove}>remove</button>}
-    </div>
-  </div>
   )
 }
 
