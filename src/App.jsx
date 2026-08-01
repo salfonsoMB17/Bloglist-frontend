@@ -56,7 +56,7 @@ const App = () => {
     try {
       console.log(blogObject)
       const updatedBlog = await blogService.update(id, blogObject)
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : { ...updatedBlog, user: blog.user }))
       setSuccessMessage(`blog ${updatedBlog.title} was updated`)
       setTimeout(() => setSuccessMessage(null), 5000)
     } catch (exception) {
