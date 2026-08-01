@@ -63,6 +63,19 @@ const App = () => {
       setTimeout(() => setErrorMessage(null), 5000)
     }
   }
+  
+  const removeBlog = async (id) => {
+    try {
+      if (!window.confirm('Do you really want to remove this blog?')) return
+      await blogService.deleteBlog(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      setSuccessMessage('blog was deleted')
+      setTimeout(() => setSuccessMessage(null), 5000)
+    } catch (exception) {
+      setErrorMessage('Error in remove blog')
+      setTimeout(() => setErrorMessage(null), 5000)
+    }
+  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
@@ -122,7 +135,7 @@ const App = () => {
         <BlogForm createBlog={createBlog} />    
       </Togglable>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog updateBlog={updateBlog} key={blog.id} blog={blog} />
+        <Blog updateBlog={updateBlog} removeBlog={removeBlog} key={blog.id} blog={blog} user={user} />
       )}
     </div>
   )
