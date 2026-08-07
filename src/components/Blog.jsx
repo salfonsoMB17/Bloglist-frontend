@@ -35,7 +35,7 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
       </div>
       <div style={showWhenVisible}>
         <p className="blog-url">{blog.url}</p>
-        <p className="blog-likes">{blog.likes} likes <button onClick={handleLike}>like</button></p>
+        <p className="blog-likes">{blog.likes} likes <button className="like-button" onClick={handleLike}>like</button></p>
         <p>added by {blog.user.name}</p>
         {blog.user.name === user.name && <button onClick={handleRemove}>remove</button>}
       </div>
