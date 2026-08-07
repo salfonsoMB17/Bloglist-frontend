@@ -11,5 +11,11 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  test: {
+    include: ['**/*.test.jsx'],
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js',
   }
 })
