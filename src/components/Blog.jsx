@@ -18,7 +18,8 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
 
   const handleLike = (event) => {
     event.preventDefault()
-    updateBlog(blog.id, { ...blog, likes: blog.likes + 1, user: blog.user.id })
+    const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user?.id || blog.user?._id || blog.user }
+    updateBlog(blog.id, blogToUpdate)
   }
 
   const handleRemove = (event) => {
@@ -36,8 +37,8 @@ const Blog = ({ updateBlog, removeBlog, blog, user }) => {
       <div style={showWhenVisible}>
         <p className="blog-url">{blog.url}</p>
         <p className="blog-likes">{blog.likes} likes <button className="like-button" onClick={handleLike}>like</button></p>
-        <p>added by {blog.user.name}</p>
-        {blog.user.name === user.name && <button onClick={handleRemove}>remove</button>}
+        <p>added by {blog.user?.name || blog.user?.username}</p>  
+        {blog.user?.name === user?.name && <button onClick={handleRemove}>remove</button>}
       </div>
     </div>
   )

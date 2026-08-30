@@ -48,7 +48,7 @@ const App = () => {
   const updateBlog = async (id, blogObject) => {
     try {
       const updatedBlog = await blogService.update(id, blogObject)
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : { ...updatedBlog, user: blog.user }))
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
     } catch {
       setErrorMessage('Error in update blog')
       setTimeout(() => setErrorMessage(null), 5000)
