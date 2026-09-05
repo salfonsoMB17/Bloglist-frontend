@@ -1,37 +1,28 @@
+import { Link, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import LoginForm from './components/LoginForm'
+import Home from './components/Home'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const blogFormRef = useRef()
+  const padding = {
+    paddingRight: 5
+  }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
+  const handleLogin = async (username, password) => {
+    const user = await loginService.login({ username, password })
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    blogService.setToken(user.token)
+    setUser(user)
+    navigate('/')
   }
 
   const createBlog = async (blogObject) => {
@@ -86,7 +77,7 @@ const App = () => {
     }
   }, [])
 
-  if (user === null) {
+  /*if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -114,10 +105,23 @@ const App = () => {
         </form>
       </div>
     )
-  }
+  }*/
 
   return (
     <div>
+      <nav>
+        <Link style={padding} to="/">home</Link>
+        {user
+          ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
+          : <Link style={padding} to="/login">login</Link>
+        }
+      </nav>
+      <Routes>
+        <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm handleLogin={handleLogin} />} />
+        <Route path="/" element={<Home blogs={blogs} user={user} blogFormRef={blogFormRef} createBlog={createBlog} updateBlog={updateBlog} removeBlog={removeBlog} />} />
+      </Routes>
+    </div>
+    /*<div>
       <h2>blogs</h2>
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       <Togglable ref={blogFormRef}>
@@ -126,7 +130,7 @@ const App = () => {
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog updateBlog={updateBlog} removeBlog={removeBlog} key={blog.id} blog={blog} user={user} />
       )}
-    </div>
+    </div>*/
   )
 }
 
