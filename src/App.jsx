@@ -7,6 +7,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
+import BlogView from './components/BlogView'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -119,6 +120,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm handleLogin={handleLogin} />} />
         <Route path="/" element={<Home blogs={blogs} user={user} blogFormRef={blogFormRef} createBlog={createBlog} updateBlog={updateBlog} removeBlog={removeBlog} />} />
+        <Route path="/blogs/:id" element={<BlogView blogs={blogs} handleLike={updateBlog} handleRemove={removeBlog} user={user} />} />
       </Routes>
     </div>
     /*<div>
