@@ -7,9 +7,6 @@ const Home = ({ blogs, user, blogFormRef, createBlog, updateBlog, removeBlog }) 
   return (
     <div>
       <h2>blogs</h2>
-      <Togglable ref={blogFormRef}>
-        <BlogForm createBlog={createBlog} />
-      </Togglable>
       <ul>
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
           <Blog updateBlog={updateBlog} removeBlog={removeBlog} key={blog.id} blog={blog} user={user} />

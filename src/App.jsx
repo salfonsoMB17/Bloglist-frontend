@@ -1,4 +1,4 @@
-import { Link, Routes, Route, Navigate } from 'react-router-dom'
+import { Link, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
@@ -17,6 +17,8 @@ const App = () => {
   const padding = {
     paddingRight: 5
   }
+  
+  const navigate = useNavigate()
 
   const handleLogin = async (username, password) => {
     const user = await loginService.login({ username, password })
@@ -28,9 +30,9 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      blogFormRef.current.toggleVisibility()
       const newBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(newBlog))
+      navigate('/')
     } catch {
       setErrorMessage('Error in create new blog')
       setTimeout(() => setErrorMessage(null), 5000)
@@ -52,6 +54,7 @@ const App = () => {
       if (!window.confirm('Do you really want to remove this blog?')) return
       await blogService.deleteBlog(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
+      navigate('/')
     } catch {
       setErrorMessage('Error in remove blog')
       setTimeout(() => setErrorMessage(null), 5000)
@@ -112,6 +115,7 @@ const App = () => {
     <div>
       <nav>
         <Link style={padding} to="/">home</Link>
+        <Link style={padding} to="/create">create new</Link>
         {user
           ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
           : <Link style={padding} to="/login">login</Link>
@@ -121,6 +125,7 @@ const App = () => {
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm handleLogin={handleLogin} />} />
         <Route path="/" element={<Home blogs={blogs} user={user} blogFormRef={blogFormRef} createBlog={createBlog} updateBlog={updateBlog} removeBlog={removeBlog} />} />
         <Route path="/blogs/:id" element={<BlogView blogs={blogs} handleLike={updateBlog} handleRemove={removeBlog} user={user} />} />
+        <Route path="/create" element={<BlogForm createBlog={createBlog} />} />
       </Routes>
     </div>
     /*<div>
