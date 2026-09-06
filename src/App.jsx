@@ -1,7 +1,5 @@
 import { Link, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
