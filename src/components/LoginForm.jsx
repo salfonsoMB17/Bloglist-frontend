@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TextField, Button, Container, Typography } from '@mui/material'
 
 const LoginForm = ({ handleLogin }) => {
 
@@ -21,31 +22,35 @@ const LoginForm = ({ handleLogin }) => {
     }
 
     return (
-        <div>
-            <h2>Log in to application</h2>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                username
-                <input
-                    type="text"
-                    value={username}
-                    name="Username"
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-                </div>
-                <div>
-                password
-                <input
-                    type="password"
-                    value={password}
-                    name="Password"
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-                </div>
-                <button type="submit">login</button>
-            </form>
-        </div>
+        <Container>
+            <div>
+                <h2>Log in to application</h2>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div>                
+                        <TextField
+                            variant="standard"
+                            label="username"
+                            type="text"
+                            value={username}
+                            name="Username"
+                            onChange={({ target }) => setUsername(target.value)}
+                        />
+                    </div>
+                    <div>                
+                        <TextField
+                            variant="standard"
+                            label="password"
+                            type="password"
+                            value={password}
+                            name="Password"
+                            onChange={({ target }) => setPassword(target.value)}
+                        />
+                    </div>
+                    <Button variant="contained" type="submit" sx={{ mt: 2 }}>login</Button>
+                </form>
+            </div>
+        </Container>
     )
 }
 export default LoginForm
