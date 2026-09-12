@@ -13,11 +13,12 @@ const BlogView = ({ blogs, handleLike, handleRemove, user }) => {
     
     return (
         <div style={{ marginTop: 20 }}>
-            <strong>{blog.title} {blog.author}</strong>
+            <strong className="blog-title">{blog.title} {blog.author}</strong>
             <p className="blog-url">{blog.url}</p>
-            <p className="blog-likes">{blog.likes} likes <button className="like-button" onClick={onLike}>like</button></p>
+            <p className="blog-likes">{blog.likes} likes {user && <button className="like-button" onClick={onLike}>like</button>}</p>
+           
             <p>added by {blog.user?.name || blog.user?.username}</p>  
-            {blog.user?.name === user?.name && <button onClick={() => handleRemove(blog.id)}>remove</button>}
+            {blog.user?.name === user?.name && <button className="remove-button" onClick={() => handleRemove(blog.id)}>remove</button>}
         </div>
     )
 }
