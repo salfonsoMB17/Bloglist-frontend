@@ -79,41 +79,11 @@ const App = () => {
     }
   }, [])
 
-  /*if (user === null) {
-    return (
-      <div>
-        <h2>Log in to application</h2>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button type="submit">login</button>
-        </form>
-      </div>
-    )
-  }*/
-
   return (
     <div>
       <nav>
         <Link style={padding} to="/">home</Link>
-        <Link style={padding} to="/create">create new</Link>
+         {user && <Link style={padding} to="/create">create new</Link>}
         {user
           ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
           : <Link style={padding} to="/login">login</Link>
@@ -126,16 +96,6 @@ const App = () => {
         <Route path="/create" element={<BlogForm createBlog={createBlog} />} />
       </Routes>
     </div>
-    /*<div>
-      <h2>blogs</h2>
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-      <Togglable ref={blogFormRef}>
-        <BlogForm createBlog={createBlog} />
-      </Togglable>
-      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog updateBlog={updateBlog} removeBlog={removeBlog} key={blog.id} blog={blog} user={user} />
-      )}
-    </div>*/
   )
 }
 
