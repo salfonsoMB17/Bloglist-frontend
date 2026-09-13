@@ -24,7 +24,7 @@ const LoginForm = ({ handleLogin }) => {
     return (
         <Container>
             <div>
-                <h2>Log in to application</h2>
+                <Typography variant="h4" sx={{ mt: 3 }}>Log in to application</Typography>
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <form onSubmit={handleSubmit}>
                     <div>                
@@ -35,6 +35,7 @@ const LoginForm = ({ handleLogin }) => {
                             value={username}
                             name="Username"
                             onChange={({ target }) => setUsername(target.value)}
+                            sx={{ width: 400, mb: 2 }}
                         />
                     </div>
                     <div>                
@@ -45,6 +46,7 @@ const LoginForm = ({ handleLogin }) => {
                             value={password}
                             name="Password"
                             onChange={({ target }) => setPassword(target.value)}
+                            sx={{ width: 400, mb: 2 }}
                         />
                     </div>
                     <Button variant="contained" type="submit" sx={{ mt: 2 }}>login</Button>

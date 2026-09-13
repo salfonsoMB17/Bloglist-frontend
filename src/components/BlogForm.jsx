@@ -17,7 +17,7 @@ const BlogForm = ({ createBlog }) => {
   return (
     <Container>
       <div>
-        <h2>create new</h2>
+        <Typography variant="h4" sx={{ mt: 3 }}>Create new</Typography>
         <form onSubmit={handleSubmit}>
           <div>
             <TextField
