@@ -6,11 +6,13 @@ import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import BlogView from './components/BlogView'
+import Notification from './components/Notification'
+import { AppBar, Toolbar, Button } from '@mui/material'  
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const blogFormRef = useRef()
   const padding = {
     paddingRight: 5
@@ -30,10 +32,11 @@ const App = () => {
     try {
       const newBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(newBlog))
+      setNotification({ text: `Blog '${newBlog.title}' added!`, type: 'success' })
       navigate('/')
     } catch {
-      setErrorMessage('Error in create new blog')
-      setTimeout(() => setErrorMessage(null), 5000)
+      setNotification({ text: 'Error in create new blog', type: 'error' })
+      setTimeout(() => setNotification(null), 5000)
     }
   }
 
@@ -42,8 +45,8 @@ const App = () => {
       const updatedBlog = await blogService.update(id, blogObject)
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
     } catch {
-      setErrorMessage('Error in update blog')
-      setTimeout(() => setErrorMessage(null), 5000)
+      setNotification({ text: 'Error in update new blog', type: 'error' })
+      setTimeout(() => setNotification(null), 5000)
     }
   }
 
@@ -54,8 +57,8 @@ const App = () => {
       setBlogs(blogs.filter(blog => blog.id !== id))
       navigate('/')
     } catch {
-      setErrorMessage('Error in remove blog')
-      setTimeout(() => setErrorMessage(null), 5000)
+      setNotification({ text: 'Error in remove blog', type: 'error' })
+      setTimeout(() => setNotification(null), 5000)
     }
   }
 
@@ -80,21 +83,28 @@ const App = () => {
   }, [])
 
   return (
-    <div>
-      <nav>
-        <Link style={padding} to="/">home</Link>
-         {user && <Link style={padding} to="/create">create new</Link>}
-        {user
-          ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
-          : <Link style={padding} to="/login">login</Link>
-        }
-      </nav>
+    <div>      
+      <AppBar position="static">
+        <Toolbar>
+          <nav>
+            <Button color="inherit" component={Link} style={padding} to="/">home</Button>
+            {user && <Button color="inherit" component={Link} style={padding} to="/create">create new</Button>}
+            {user
+              ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
+              : <Button color="inherit" component={Link} style={padding} to="/login">login</Button>
+            }
+          </nav>
+        </Toolbar>
+      </AppBar>
+
+      <Notification message={notification} sx={{ mt: 1 }} />
+
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm handleLogin={handleLogin} />} />
         <Route path="/" element={<Home blogs={blogs} user={user} blogFormRef={blogFormRef} createBlog={createBlog} updateBlog={updateBlog} removeBlog={removeBlog} />} />
         <Route path="/blogs/:id" element={<BlogView blogs={blogs} handleLike={updateBlog} handleRemove={removeBlog} user={user} />} />
         <Route path="/create" element={<BlogForm createBlog={createBlog} />} />
-      </Routes>
+      </Routes>      
     </div>
   )
 }
