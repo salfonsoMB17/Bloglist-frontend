@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import BlogView from './components/BlogView'
 import Notification from './components/Notification'
-import { AppBar, Toolbar, Button } from '@mui/material'  
+import { AppBar, Toolbar, Button, Typography } from '@mui/material'  
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -86,14 +86,13 @@ const App = () => {
     <div>      
       <AppBar position="static">
         <Toolbar>
-          <nav>
-            <Button color="inherit" component={Link} style={padding} to="/">home</Button>
-            {user && <Button color="inherit" component={Link} style={padding} to="/create">create new</Button>}
-            {user
-              ? <span>{user.name} logged in <button onClick={handleLogout}>logout</button></span>
-              : <Button color="inherit" component={Link} style={padding} to="/login">login</Button>
-            }
-          </nav>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>Blog App</Typography>
+          <Button color="inherit" component={Link} style={padding} to="/">BLOGS</Button>
+          {user && <Button color="inherit" component={Link} style={padding} to="/create">NEW BLOG</Button>}
+          {user
+            ? <Button color="inherit" onClick={handleLogout}>LOGOUT</Button>
+            : <Button color="inherit" component={Link} style={padding} to="/login">LOGIN</Button>
+          }
         </Toolbar>
       </AppBar>
 
